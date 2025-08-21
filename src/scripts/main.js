@@ -2,24 +2,37 @@
 
 const spider = document.querySelector('.spider');
 const wall = document.querySelector('.wall');
+const borderWall = parseInt(getComputedStyle(wall).borderWidth, 10);
 
 document.addEventListener('click', (e) => {
-  const x = e.pageX - wall.offsetLeft;
-  const y = e.pageY - wall.offsetTop;
+  const rect = wall.getBoundingClientRect();
+  if (
+    e.clientX < rect.left ||
+    e.clientX > rect.right ||
+    e.clientY < rect.top ||
+    e.clientY > rect.bottom
+  ) {
+    return;
+  }
 
-  const spiderWidth = spider.offsetWidth;
-  const spiderHeight = spider.offsetHeight;
+  console.log(rect);
 
-  let newX = x - spiderWidth / 2;
-  let newY = y - spiderHeight / 2;
+  let x = e.clientX - rect.left - borderWall - spider.offsetWidth / 2;
+  let y = e.clientY - rect.top - borderWall - spider.offsetHeight / 2;
 
-  const maxX = wall.offsetWidth - spiderWidth;
-  const maxY = wall.offsetHeight - spiderHeight;
+  const borderLeft = parseInt(getComputedStyle(wall).borderLeftWidth, 10);
+  const borderTop = parseInt(getComputedStyle(wall).borderTopWidth, 10);
 
-  newX = Math.max(0, Math.min(newX, maxX));
-  newY = Math.max(0, Math.min(newY, maxY));
+  x -= spider.offsetWidth / 2 + borderLeft;
+  y -= spider.offsetHeight / 2 + borderTop;
 
-  spider.style.left = `${newX}px`;
-  spider.style.top = `${newY}px`;
-  // console.log(`Clicked at: (${x}, ${y})`);
+  x = Math.max(0, Math.min(x, wall.clientWidth - spider.offsetWidth));
+
+  y = Math.max(0, Math.min(y, wall.clientHeight - spider.offsetHeight));
+
+  if (e.target.classList.contains('wall')) {
+    // console.log('Wall clicked');
+    spider.style.left = `${x}px`;
+    spider.style.top = `${y}px`;
+  }
 });
