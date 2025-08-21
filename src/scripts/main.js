@@ -6,6 +6,7 @@ const borderWall = parseInt(getComputedStyle(wall).borderWidth, 10);
 
 document.addEventListener('click', (e) => {
   const rect = wall.getBoundingClientRect();
+
   if (
     e.clientX < rect.left ||
     e.clientX > rect.right ||
@@ -15,16 +16,16 @@ document.addEventListener('click', (e) => {
     return;
   }
 
-  console.log(rect);
+  // console.log(rect);
 
-  let x = e.clientX - rect.left - borderWall - spider.offsetWidth / 2;
-  let y = e.clientY - rect.top - borderWall - spider.offsetHeight / 2;
+  let x = e.clientX - rect.left + borderWall - spider.offsetWidth / 2;
+  let y = e.clientY - rect.top + borderWall - spider.offsetHeight / 2;
 
-  const borderLeft = parseInt(getComputedStyle(wall).borderLeftWidth, 10);
-  const borderTop = parseInt(getComputedStyle(wall).borderTopWidth, 10);
+  // const borderLeft = parseInt(getComputedStyle(wall).borderLeftWidth, 10);
+  // const borderTop = parseInt(getComputedStyle(wall).borderTopWidth, 10);
 
-  x -= spider.offsetWidth / 2 + borderLeft;
-  y -= spider.offsetHeight / 2 + borderTop;
+  // x -= spider.offsetWidth / 2 + borderLeft;
+  // y -= spider.offsetHeight / 2 + borderTop;
 
   x = Math.max(0, Math.min(x, wall.clientWidth - spider.offsetWidth));
 
